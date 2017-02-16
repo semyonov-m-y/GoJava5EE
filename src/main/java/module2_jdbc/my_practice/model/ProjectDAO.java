@@ -1,4 +1,4 @@
-package module2_jdbc.model;
+package module2_jdbc.my_practice.model;
 
 import java.util.List;
 

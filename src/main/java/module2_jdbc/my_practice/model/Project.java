@@ -1,4 +1,4 @@
-package module2_jdbc.model;
+package module2_jdbc.my_practice.model;
 
 /**
  * Created by GetFire on 15.02.2017.

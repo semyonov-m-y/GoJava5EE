@@ -1,7 +1,7 @@
-package module2_jdbc;
+package module2_jdbc.my_practice;
 
-import module2_jdbc.jdbc.JdbcProjectDAO;
-import module2_jdbc.model.ProjectDAO;
+import module2_jdbc.my_practice.jdbc.JdbcProjectDAO;
+import module2_jdbc.my_practice.model.ProjectDAO;
 
 public class Main {
 
