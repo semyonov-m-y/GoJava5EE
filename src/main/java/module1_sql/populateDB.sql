@@ -1,41 +1,72 @@
 -- Fill the company table --
-INSERT INTO company VALUES (NULL, 'NIX Solution');
-INSERT INTO company VALUES (NULL, 'SOFT WARE dev');
-INSERT INTO company VALUES (NULL, 'ORACLE');
+INSERT INTO companies (comp_name) VALUES ('NIX Solution'),
+  ('SOFT WARE dev'),
+  ('ORACLE');
 
 -- Fill the customers table --
-INSERT INTO customer VALUES (NULL, 'EPAM');
-INSERT INTO customer VALUES (NULL, 'CIKLUM');
-INSERT INTO customer VALUES (NULL, 'Privat Bank');
-
+INSERT INTO customers (cust_name) VALUES ('EPAM'),
+  ('CIKLUM'),
+  ('Privat Bank');
 -- Fill the project table --
-INSERT INTO project VALUES (NULL, '\"TNK\"corp. Finance tools', 1, 1);
-INSERT INTO project VALUES (NULL, 'GoIT phone application', 2, 2);
-INSERT INTO project VALUES (NULL, 'Times stat', 3, 3);
+INSERT INTO projects (project_name, comp_id, cust_id) VALUES
+  ('\"TNK\"corp. Finance tools', 1, 1),
+  ('GoIT phone application', 2, 2),
+  ('Times stat', 3, 3);
 
 -- Fill the developers table--
-INSERT INTO developers VALUES (NULL, 'Denys', 1);
-INSERT INTO developers VALUES (NULL, 'Nick', 2);
-INSERT INTO developers VALUES (NULL, 'Joe', 3);
-INSERT INTO developers VALUES (NULL, 'Roman', 1);
+INSERT INTO developers (dev_name, project_id) VALUES
+  ('Denys', 1),
+  ('Nick', 2),
+  ('Joe', 3),
+  ('Roman', 1);
 
 -- Fill the skills table--
-INSERT INTO skills VALUES (NULL, 'Java');
-INSERT INTO skills VALUES (NULL, 'C++');
-INSERT INTO skills VALUES (NULL, 'C#');
-INSERT INTO skills VALUES (NULL, 'Maven');
-INSERT INTO skills VALUES (NULL, 'Tomcat');
+INSERT INTO skills (skill_name) VALUES
+  ('Java'),
+  ('C++'),
+  ('C#'),
+  ('Maven'),
+  ('Tomcat');
 
 -- Fill the developers skills table--
-INSERT INTO developers_skills VALUES (1, 1);
-INSERT INTO developers_skills VALUES (1, 4);
-INSERT INTO developers_skills VALUES (1, 5);
-INSERT INTO developers_skills VALUES (2, 2);
-INSERT INTO developers_skills VALUES (2, 4);
-INSERT INTO developers_skills VALUES (2, 5);
-INSERT INTO developers_skills VALUES (3, 3);
-INSERT INTO developers_skills VALUES (3, 4);
-INSERT INTO developers_skills VALUES (3, 5);
-INSERT INTO developers_skills VALUES (4, 1);
-INSERT INTO developers_skills VALUES (4, 4);
-INSERT INTO developers_skills VALUES (4, 5);
+INSERT INTO developers_skills (dev_id, skill_id) VALUES (1, 1),
+  (1, 4),
+  (1, 5),
+  (2, 2),
+  (2, 4),
+  (2, 5),
+  (3, 3),
+  (3, 4),
+  (3, 5),
+  (4, 1),
+  (4, 4),
+  (4, 5);
+
+-- PAY ATTENTION! YOU MUST TO UPDATE DATA AFTER YOU RUN 4.sql FILE --
+-- Data updates --
+INSERT INTO customers (cust_name) VALUES
+  ('OOO "Рога и Копыта"'),
+  ('ФЛП Порох П.А'),
+  ('Укртатнафта');
+
+
+INSERT INTO projects (project_name, project_cost, comp_id, cust_id) VALUES
+  ('Сомнительное приложение для отмывания денег', 3000, 1, 4),
+  ('PersonSecurity app', 4000, 2, 5),
+  ('Tracking management system', 6000, 3, 6);
+
+INSERT INTO developers (dev_name, salary, project_id) VALUES
+  ('John', 1400, 4),
+  ('Michele', 800, 5),
+  ('Andrea', 2100, 6);
+
+INSERT INTO developers_skills (dev_id, skill_id) VALUES
+  (5, 2),
+  (5, 4),
+  (5, 5),
+  (6, 3),
+  (6, 4),
+  (6, 5),
+  (7, 1),
+  (7, 4),
+  (7, 5);
