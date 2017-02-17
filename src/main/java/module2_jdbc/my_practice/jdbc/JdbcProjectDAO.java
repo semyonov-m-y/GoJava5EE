@@ -88,7 +88,7 @@ public class JdbcProjectDAO implements ProjectDAO {
                 resultSet.getInt("project_cost"));
     }
 
-    public void loadDriver() throws JdbcProjectDaoException {
+    private void loadDriver() throws JdbcProjectDaoException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
