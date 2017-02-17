@@ -8,7 +8,8 @@ import org.slf4j.LoggerFactory;
 public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args)throws Exception {
+    public static void main(String[] args){
+        LOGGER.info("Start working");
         ProjectDAO jdbcProjectDAO = new JdbcProjectDAO();
 
         System.out.println("All projects");
@@ -16,6 +17,7 @@ public class Main {
 
         System.out.println("Project with id 3");
         System.out.println(jdbcProjectDAO.load(3));
+        LOGGER.info("End working");
 
 
     }

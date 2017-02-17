@@ -13,7 +13,9 @@ import java.util.List;
 public class JdbcProjectDAO implements ProjectDAO {
     public JdbcProjectDAO() {
         try {
+            LOGGER.info("load driver");
             loadDriver();
+            LOGGER.info("Success!");
         } catch (JdbcProjectDaoException e) {
             LOGGER.error("Cannot find a driver", e);
         }
@@ -27,11 +29,12 @@ public class JdbcProjectDAO implements ProjectDAO {
 
 
     @Override
-    public List<Project> getAll() throws JdbcProjectDaoException {
+    public List<Project> getAll(){
+        LOGGER.info("getting all from db");
         List<Project> projectsList = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT project_name, project_cost, comp_name FROM projectcompany");
+            ResultSet resultSet = statement.executeQuery("SELECT project_name, project_cost, comp_name FROM projects INNER JOIN companies USING (comp_id) INNER JOIN customers USING (cust_id);");
             while (resultSet.next()) {
                 Project pr = new Project(resultSet.getString("comp_name"),
                         resultSet.getString("project_name"),
@@ -49,12 +52,13 @@ public class JdbcProjectDAO implements ProjectDAO {
     }
 
     @Override
-    public Project load(int id) throws JdbcProjectDaoException {
+    public Project load(int id){
+        LOGGER.info("load Project by ID from DB");
         Project result;
         ResultSet resultSet = null;
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              PreparedStatement statement =
-                     connection.prepareStatement("SELECT * FROM projectcompany WHERE project_id=?")) {
+                     connection.prepareStatement("SELECT *FROM projects INNER JOIN companies USING (comp_id) INNER JOIN customers USING (cust_id) WHERE project_id=?;")) {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {

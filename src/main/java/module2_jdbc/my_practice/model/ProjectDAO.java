@@ -6,7 +6,7 @@ import java.util.List;
  * Created by GetFire on 16.02.2017.
  */
 public interface ProjectDAO {
-    List<Project> getAll() throws Exception;
+    List<Project> getAll();
 
-    Project load(int id) throws Exception;
+    Project load(int id);
 }
