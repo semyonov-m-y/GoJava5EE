@@ -1,6 +1,7 @@
 package module2_jdbc.home_work.jdbc;
 
 import module2_jdbc.home_work.entry.Company;
+import module2_jdbc.home_work.entry.Project;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,14 +20,14 @@ public class CompaniesDAO {
     private String user = "root";
     private String pass = "admin";
 
-    public void addCompany(Company company){
+    public void addCompany(Company company) {
         String name = company.getName();
-        try (Connection connection = DriverManager.getConnection(url,user,pass);
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO companies(comp_name) VALUES (?);")){
-            statement.setString(1,name);
+        try (Connection connection = DriverManager.getConnection(url, user, pass);
+             PreparedStatement statement = connection.prepareStatement("INSERT INTO companies(comp_name) VALUES (?);")) {
+            statement.setString(1, name);
             statement.executeUpdate();
             System.out.println(name + ", successfully added to DB");
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Cannot connect to DB", e);
         }
 
@@ -67,15 +68,47 @@ public class CompaniesDAO {
         }
     }
 
+    public List<Project> getCompaniesProjects(Company company) {
+        List<Project> result = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(url, user, pass);
+             PreparedStatement statement = connection.prepareStatement("SELECT project_name, project_cost FROM projects JOIN companies USING (comp_id) WHERE comp_name LIKE ?;")) {
+            String name = "%"+company.getName()+"%";
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String aName = resultSet.getString("project_name");
+                int cost = resultSet.getInt("project_cost");
+                result.add(new Project(aName, cost));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Cannot connect to DB", e);
+        }
+        return result;
+    }
+
+//    public void updateCompany(Company company, String name){
+//        try (Connection connection = DriverManager.getConnection(url, user,pass);
+//        PreparedStatement statement = connection.prepareStatement("UPDATE companies SET comp_name = ? WHERE id =?;")){
+//            int id = company.getId();
+//            statement.setString(1,name);
+//            statement.setInt(2,id);
+//            statement.executeUpdate();
+//            System.out.println("Successfully updated");
+//        }catch (SQLException e){
+//            throw new RuntimeException("Cannot connect to DB", e);
+//        }
+//    }
+
     public void deleteByName(String name) {
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              PreparedStatement statement = connection.prepareStatement("DELETE FROM companies WHERE comp_name LIKE ?;")) {
             String name1 = "%" + name + "%";
-            statement.setString(1,name1);
+            statement.setString(1, name1);
             statement.executeUpdate();
             System.out.println(name + ", Successfully deleted");
-        }catch (SQLException e){
-            throw  new RuntimeException("Cannot connect to DB", e);
+        } catch (SQLException e) {
+            throw new RuntimeException("Cannot connect to DB", e);
         }
     }
 
