@@ -70,3 +70,9 @@ INSERT INTO developers_skills (dev_id, skill_id) VALUES
   (7, 1),
   (7, 4),
   (7, 5);
+  
+ -- PAY ATTENTION! YOU MUST TO UPDATE DATA BEFORE YOU RUN 5.sql FILE -- 
+ -- UPDATE DATA
+INSERT INTO projects (project_name, project_cost, comp_id, cust_id) VALUES
+  ('Тесты для Java Junior', 100, 1, 1),
+  ('Тесты для Objective-C Junior', 150, 1, 1);
