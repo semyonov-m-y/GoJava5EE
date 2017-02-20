@@ -12,13 +12,9 @@ import java.util.List;
 
 public class JdbcProjectDAO implements ProjectDAO {
     public JdbcProjectDAO() {
-        try {
-            LOGGER.info("load driver");
-            loadDriver();
-            LOGGER.info("Success!");
-        } catch (JdbcProjectDaoException e) {
-            LOGGER.error("Cannot find a driver", e);
-        }
+        LOGGER.info("load driver");
+        loadDriver();
+        LOGGER.info("Success!");
     }
 
 
@@ -29,16 +25,14 @@ public class JdbcProjectDAO implements ProjectDAO {
 
 
     @Override
-    public List<Project> getAll(){
+    public List<Project> getAll() {
         LOGGER.info("getting all from db");
         List<Project> projectsList = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT project_name, project_cost, comp_name FROM projects INNER JOIN companies USING (comp_id) INNER JOIN customers USING (cust_id);");
             while (resultSet.next()) {
-                Project pr = new Project(resultSet.getString("comp_name"),
-                        resultSet.getString("project_name"),
-                        resultSet.getInt("project_cost"));
+                Project pr = createProject(resultSet);
                 projectsList.add(pr);
             }
             resultSet.close();
@@ -52,7 +46,7 @@ public class JdbcProjectDAO implements ProjectDAO {
     }
 
     @Override
-    public Project load(int id){
+    public Project load(int id) {
         LOGGER.info("load Project by ID from DB");
         Project result;
         ResultSet resultSet = null;
@@ -88,7 +82,7 @@ public class JdbcProjectDAO implements ProjectDAO {
                 resultSet.getInt("project_cost"));
     }
 
-    private void loadDriver() throws JdbcProjectDaoException {
+    private void loadDriver() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
