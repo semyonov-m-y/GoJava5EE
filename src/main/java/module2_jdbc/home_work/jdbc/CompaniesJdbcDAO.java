@@ -106,6 +106,7 @@ public class CompaniesJdbcDAO implements CompaniesDAO {
              PreparedStatement statement = connection.prepareStatement("SELECT * FROM companies WHERE comp_id=?;")) {
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             connection.setAutoCommit(false);
+            statement.setInt(1,id);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 company = createCompany(rs);
