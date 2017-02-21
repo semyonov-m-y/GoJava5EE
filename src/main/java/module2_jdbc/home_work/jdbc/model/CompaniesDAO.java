@@ -11,7 +11,6 @@ import java.util.List;
 public interface CompaniesDAO {
 
     public void addCompany(Company company);
-
     public List<Company> getAllCompanies();
     public Company getByName(String name);
     public List<Project> getCompaniesProjects(Company company);
