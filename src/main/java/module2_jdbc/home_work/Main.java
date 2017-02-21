@@ -26,6 +26,7 @@ public class Main {
         System.out.println("***************************************");
         companiesDAO.getCompaniesProjects(companiesDAO.getByName("Nix")).forEach(System.out::println);
 
+
     }
 
 }

@@ -25,9 +25,12 @@ public class CompaniesJdbcDAO implements CompaniesDAO {
         String name = company.getName();
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              PreparedStatement statement = connection.prepareStatement("INSERT INTO companies(comp_name) VALUES (?);")) {
+            connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+            connection.setAutoCommit(false);
             statement.setString(1, name);
             statement.executeUpdate();
             System.out.println(name + ", successfully added to DB");
+            connection.commit();
         } catch (SQLException e) {
             throw new RuntimeException("Cannot connect to DB", e);
         }
@@ -38,12 +41,15 @@ public class CompaniesJdbcDAO implements CompaniesDAO {
         List<Company> result = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              Statement statement = connection.createStatement()) {
+            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            connection.setAutoCommit(false);
             String sql = "SELECT * FROM companies;";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 Company company = createCompany(resultSet);
                 result.add(company);
             }
+            connection.commit();
         } catch (SQLException e) {
             throw new RuntimeException("Cannot connect to DB", e);
         }
@@ -55,13 +61,17 @@ public class CompaniesJdbcDAO implements CompaniesDAO {
         Company result;
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              PreparedStatement statement = connection.prepareStatement("SELECT * FROM companies WHERE companies.comp_name LIKE ?;")) {
+            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            connection.setAutoCommit(false);
             name = "%" + name + "%";
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 result = createCompany(resultSet);
+                connection.commit();
             } else {
                 result = new Company("Default");
+                connection.rollback();
             }
             return result;
         } catch (SQLException e) {
@@ -73,6 +83,8 @@ public class CompaniesJdbcDAO implements CompaniesDAO {
         List<Project> result = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              PreparedStatement statement = connection.prepareStatement("SELECT project_name, project_cost FROM projects JOIN companies USING (comp_id) WHERE comp_name LIKE ?;")) {
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            connection.setAutoCommit(false);
             String name = "%"+company.getName()+"%";
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
@@ -81,6 +93,7 @@ public class CompaniesJdbcDAO implements CompaniesDAO {
                 int cost = resultSet.getInt("project_cost");
                 result.add(new Project(aName, cost));
             }
+            connection.commit();
 
         } catch (SQLException e) {
             throw new RuntimeException("Cannot connect to DB", e);
@@ -105,11 +118,15 @@ public class CompaniesJdbcDAO implements CompaniesDAO {
         int res;
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              PreparedStatement statement = connection.prepareStatement("DELETE FROM companies WHERE comp_name LIKE ?;")) {
+            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            connection.setAutoCommit(false);
             String name1 = "%" + name + "%";
             statement.setString(1, name1);
             statement.executeUpdate();
+            connection.commit();
             System.out.println(name + ", Successfully deleted");
             res = 1;
+
         } catch (SQLException e) {
             throw new RuntimeException("Cannot connect to DB", e);
         }
