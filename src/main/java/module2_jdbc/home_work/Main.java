@@ -2,7 +2,7 @@ package module2_jdbc.home_work;
 
 import module2_jdbc.home_work.entry.Company;
 import module2_jdbc.home_work.jdbc.CompaniesJdbcDAO;
-import module2_jdbc.home_work.jdbc.model.CompaniesDAO;
+import module2_jdbc.home_work.model.CompaniesDAO;
 
 public class Main {
     public static void main(String[] args) {

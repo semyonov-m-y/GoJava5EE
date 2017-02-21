@@ -1,4 +1,4 @@
-package module2_jdbc.home_work.jdbc.model;
+package module2_jdbc.home_work.model;
 
 import module2_jdbc.home_work.entry.Company;
 import module2_jdbc.home_work.entry.Project;

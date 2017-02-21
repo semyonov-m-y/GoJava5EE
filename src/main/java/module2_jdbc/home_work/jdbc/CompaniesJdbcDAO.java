@@ -2,7 +2,7 @@ package module2_jdbc.home_work.jdbc;
 
 import module2_jdbc.home_work.entry.Company;
 import module2_jdbc.home_work.entry.Project;
-import module2_jdbc.home_work.jdbc.model.CompaniesDAO;
+import module2_jdbc.home_work.model.CompaniesDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
