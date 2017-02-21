@@ -2,6 +2,7 @@ package module2_jdbc.home_work.jdbc;
 
 import module2_jdbc.home_work.entry.Company;
 import module2_jdbc.home_work.entry.Project;
+import module2_jdbc.home_work.jdbc.model.CompaniesDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,9 +11,9 @@ import java.util.List;
 /**
  * Created by GetFire on 20.02.2017.
  */
-public class CompaniesDAO {
+public class CompaniesJdbcDAO implements CompaniesDAO {
 
-    public CompaniesDAO() {
+    public CompaniesJdbcDAO() {
         loadDriver();
     }
 
@@ -100,16 +101,19 @@ public class CompaniesDAO {
 //        }
 //    }
 
-    public void deleteByName(String name) {
+    public int deleteByName(String name) {
+        int res;
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              PreparedStatement statement = connection.prepareStatement("DELETE FROM companies WHERE comp_name LIKE ?;")) {
             String name1 = "%" + name + "%";
             statement.setString(1, name1);
             statement.executeUpdate();
             System.out.println(name + ", Successfully deleted");
+            res = 1;
         } catch (SQLException e) {
             throw new RuntimeException("Cannot connect to DB", e);
         }
+        return res;
     }
 
 

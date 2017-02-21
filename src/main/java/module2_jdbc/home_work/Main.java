@@ -1,11 +1,12 @@
 package module2_jdbc.home_work;
 
 import module2_jdbc.home_work.entry.Company;
-import module2_jdbc.home_work.jdbc.CompaniesDAO;
+import module2_jdbc.home_work.jdbc.CompaniesJdbcDAO;
+import module2_jdbc.home_work.jdbc.model.CompaniesDAO;
 
 public class Main {
     public static void main(String[] args) {
-        CompaniesDAO companiesDAO = new CompaniesDAO();
+        CompaniesDAO companiesDAO = new CompaniesJdbcDAO();
         companiesDAO.getAllCompanies().forEach(System.out::println);
 
         System.out.println("***************************************");
