@@ -21,6 +21,7 @@ public class CompaniesJdbcDAO implements CompaniesDAO {
     private String user = "root";
     private String pass = "admin";
 
+    @Override
     public void addCompany(Company company) {
         String name = company.getName();
         try (Connection connection = DriverManager.getConnection(url, user, pass);
@@ -37,6 +38,7 @@ public class CompaniesJdbcDAO implements CompaniesDAO {
 
     }
 
+    @Override
     public List<Company> getAllCompanies() {
         List<Company> result = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(url, user, pass);
@@ -57,6 +59,7 @@ public class CompaniesJdbcDAO implements CompaniesDAO {
         return result;
     }
 
+    @Override
     public Company getByName(String name) {
         Company result;
         try (Connection connection = DriverManager.getConnection(url, user, pass);
@@ -79,13 +82,54 @@ public class CompaniesJdbcDAO implements CompaniesDAO {
         }
     }
 
+    @Override
+    public void updateByID(int id, Company company) {
+        try (Connection connection = DriverManager.getConnection(url, user, pass);
+             PreparedStatement statement = connection.prepareStatement("UPDATE companies SET comp_name = ? WHERE comp_id =?;")) {
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            connection.setAutoCommit(false);
+            String name = company.getName();
+            statement.setString(1, name);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            connection.commit();
+            System.out.println("Successfully updated");
+        } catch (SQLException e) {
+            throw new RuntimeException("Cannot connect to DB", e);
+        }
+    }
+
+    @Override
+    public Company getByID(int id) {
+        Company company = null;
+        try (Connection connection = DriverManager.getConnection(url, user, pass);
+             PreparedStatement statement = connection.prepareStatement("SELECT * FROM companies WHERE comp_id=?;")) {
+            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            connection.setAutoCommit(false);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                company = createCompany(rs);
+                connection.commit();
+            } else {
+                System.out.println("Cannot find any company with id: "+id);
+                company = new Company("Default");
+                connection.rollback();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Cannot connect to DB", e);
+        }
+        return company;
+
+    }
+
+    @Override
     public List<Project> getCompaniesProjects(Company company) {
         List<Project> result = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              PreparedStatement statement = connection.prepareStatement("SELECT project_name, project_cost FROM projects JOIN companies USING (comp_id) WHERE comp_name LIKE ?;")) {
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             connection.setAutoCommit(false);
-            String name = "%"+company.getName()+"%";
+            String name = "%" + company.getName() + "%";
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -101,19 +145,7 @@ public class CompaniesJdbcDAO implements CompaniesDAO {
         return result;
     }
 
-//    public void updateCompany(Company company, String name){
-//        try (Connection connection = DriverManager.getConnection(url, user,pass);
-//        PreparedStatement statement = connection.prepareStatement("UPDATE companies SET comp_name = ? WHERE id =?;")){
-//            int id = company.getId();
-//            statement.setString(1,name);
-//            statement.setInt(2,id);
-//            statement.executeUpdate();
-//            System.out.println("Successfully updated");
-//        }catch (SQLException e){
-//            throw new RuntimeException("Cannot connect to DB", e);
-//        }
-//    }
-
+    @Override
     public int deleteByName(String name) {
         int res;
         try (Connection connection = DriverManager.getConnection(url, user, pass);

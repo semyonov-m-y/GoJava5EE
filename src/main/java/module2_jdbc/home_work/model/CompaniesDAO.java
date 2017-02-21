@@ -15,4 +15,6 @@ public interface CompaniesDAO {
     public Company getByName(String name);
     public List<Project> getCompaniesProjects(Company company);
     public int deleteByName(String name);
+    public void updateByID (int id, Company company);
+    public Company getByID (int id);
 }
