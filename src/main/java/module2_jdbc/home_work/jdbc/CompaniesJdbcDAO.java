@@ -1,6 +1,7 @@
 package module2_jdbc.home_work.jdbc;
 
 import module2_jdbc.home_work.entry.Company;
+import module2_jdbc.home_work.entry.Developer;
 import module2_jdbc.home_work.entry.Project;
 import module2_jdbc.home_work.model.CompaniesDAO;
 
@@ -166,6 +167,25 @@ public class CompaniesJdbcDAO implements CompaniesDAO {
         return res;
     }
 
+    @Override
+    public List<Developer> getAllDevelopers(String companyName) {
+        companyName = "%"+companyName+"%";
+        List<Developer> developers= new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(url,user,pass);
+        PreparedStatement statement = connection.prepareStatement("SELECT dev_name FROM developers INNER JOIN projects USING (project_id) INNER JOIN companies USING (comp_id) WHERE comp_name LIKE ?;")){
+            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            connection.setAutoCommit(false);
+            statement.setString(1,companyName);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                developers.add(new Developer(resultSet.getString("dev_name")));
+            }
+            connection.commit();
+        }catch (SQLException e){
+            throw new RuntimeException("Cannot connect to DB", e);
+        }
+        return developers;
+    }
 
     private void loadDriver() {
         try {

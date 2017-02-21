@@ -52,6 +52,10 @@ public class Main {
         companiesDAO.getCompaniesProjects(companiesDAO.getByName("Nix")).forEach(System.out::println);
         System.out.println();
 
+        System.out.println("***************************************");
+        System.out.println("Getting all developers who work on company \"NIX Solution\": ");
+        companiesDAO.getAllDevelopers("Nix").forEach(System.out::println);
+        System.out.println();
 
     }
 
