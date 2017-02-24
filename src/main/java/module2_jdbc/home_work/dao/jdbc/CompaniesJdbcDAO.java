@@ -1,9 +1,9 @@
-package module2_jdbc.home_work.jdbc;
+package module2_jdbc.home_work.dao.jdbc;
 
 import module2_jdbc.home_work.entity.Company;
 import module2_jdbc.home_work.entity.Developer;
 import module2_jdbc.home_work.entity.Project;
-import module2_jdbc.home_work.model.CompaniesDAO;
+import module2_jdbc.home_work.dao.model.CompaniesDAO;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package module2_jdbc.home_work.model;
+package module2_jdbc.home_work.dao.model;
 
 import module2_jdbc.home_work.entity.Company;
 import module2_jdbc.home_work.entity.Developer;

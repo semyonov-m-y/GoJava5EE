@@ -1,8 +1,8 @@
 package module2_jdbc.home_work;
 
 import module2_jdbc.home_work.entity.Company;
-import module2_jdbc.home_work.jdbc.CompaniesJdbcDAO;
-import module2_jdbc.home_work.model.CompaniesDAO;
+import module2_jdbc.home_work.dao.jdbc.CompaniesJdbcDAO;
+import module2_jdbc.home_work.dao.model.CompaniesDAO;
 
 public class Main {
     public static void main(String[] args) {
