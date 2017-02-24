@@ -57,6 +57,8 @@ public class Main {
         companiesDAO.getAllDevelopers("Nix").forEach(System.out::println);
         System.out.println();
 
+        // End of testing CompaniesDAO
+
     }
 
 }
