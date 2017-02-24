@@ -1,8 +1,8 @@
 package module2_jdbc.home_work.model;
 
-import module2_jdbc.home_work.entry.Company;
-import module2_jdbc.home_work.entry.Developer;
-import module2_jdbc.home_work.entry.Project;
+import module2_jdbc.home_work.entity.Company;
+import module2_jdbc.home_work.entity.Developer;
+import module2_jdbc.home_work.entity.Project;
 
 import java.util.List;
 

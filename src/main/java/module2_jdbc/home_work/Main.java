@@ -1,6 +1,6 @@
 package module2_jdbc.home_work;
 
-import module2_jdbc.home_work.entry.Company;
+import module2_jdbc.home_work.entity.Company;
 import module2_jdbc.home_work.jdbc.CompaniesJdbcDAO;
 import module2_jdbc.home_work.model.CompaniesDAO;
 

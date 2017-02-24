@@ -1,4 +1,4 @@
-package module2_jdbc.home_work.entry;
+package module2_jdbc.home_work.entity;
 
 import java.util.List;
 
